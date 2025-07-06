@@ -9,8 +9,8 @@ This repository implements a RoBERTa-based approach to automatically assess depr
 - **`model.py`** performs full fine-tuning of RoBERTa-base for 4 epochs on each of the three severity tasks, saving the best validation checkpoints.  
 - **`evaluate.py`** loads those checkpoints and runs both a strict 60/20/20 hold-out evaluation and 5-fold stratified cross-validation (with early stopping, dropout, weight decay, and label smoothing) to demonstrate robust generalization and avoid over-fit.
 
-For the full methodology, detailed results, and discussion of implications for mental health care, please see the accompanying paper:    
-🔗 [**Transforming Mental Health Care: Harnessing the Power of RoBERTa for DASS-42 Classification**]([Transforming-Mental-Health-Care-Harnessing-the-Power-of-RoBERTa.pdf](https://nhsjs.com/2023/transforming-mental-health-care-harnessing-the-power-of-roberta-for-assessing-and-supporting-anxiety-stress-and-de))
+For the full methodology, detailed results, and discussion of implications for mental health care, please see the accompanying paper:  
+🔗 [**Transforming Mental Health Care: Harnessing the Power of RoBERTa for DASS-42 Classification**](https://nhsjs.com/2023/transforming-mental-health-care-harnessing-the-power-of-roberta-for-assessing-and-supporting-anxiety-stress-and-de)
 
 
 <h2>🛠️ Installation & Setup:</h2>
