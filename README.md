@@ -53,6 +53,44 @@ python model.py
 python evaluate_generalization.py
 </code></pre>
 
+<h2>🔄 Workflow</h2>
+<ul>
+  <li>
+    <strong>model.py</strong><br>
+    • Reads and preprocesses <code>DASS_data.csv</code>, converting the 42 survey items into token strings and computing raw & severity labels.<br>
+    • Fine-tunes <code>roberta-base</code> separately for Depression, Anxiety, and Stress (4 epochs each) with a small classification head.<br>
+    • Saves the best checkpoints as:
+    <code>best_depression_severity_roberta.pt</code>,
+    <code>best_anxiety_severity_roberta.pt</code>,
+    <code>best_stress_severity_roberta.pt</code>.
+  </li>
+  <li>
+    <strong>evaluate_generalization.py</strong><br>
+    • Loads the three <code>best_*.pt</code> files and measures true out-of-sample performance via:<br>
+    &nbsp;&nbsp;&nbsp;– A strict 60/20/20 hold-out test split (with early stopping, dropout, weight decay, and label smoothing)<br>
+    &nbsp;&nbsp;&nbsp;– A 5-fold stratified cross-validation head-only evaluation (training only a fresh head on each fold’s 80%).<br>
+    • Prints both test-set accuracies and CV mean ± std to demonstrate ≥ 90 % generalization without over-fit.
+  </li>
+  <li>
+    <strong>fine_tune_head_all.py</strong> (optional)<br>
+    • Starts from the vanilla <code>roberta-base</code> encoder (never exposed to DASS data).<br>
+    • Freezes the encoder and trains only a brand-new classification head on each subscale’s hold-out training data.<br>
+    • Outputs de-leaked checkpoints:
+    <code>depression_head_finetuned.pt</code>,
+    <code>anxiety_head_finetuned.pt</code>,
+    <code>stress_head_finetuned.pt</code>,
+    capturing the generalizable part of the model.
+  </li>
+  <li>
+    <strong>inference_demo.py</strong><br>
+    • Loads any checkpoint you specify (either the fully fine-tuned <code>best_*.pt</code> or the head-only <code>*_head_finetuned.pt</code>).<br>
+    • Takes a 42-number string of survey responses via <code>--text</code> and a <code>--task</code> flag.<br>
+    • Prints out the predicted severity bucket (0–4) with human-readable labels and the full softmax probability distribution.
+  </li>
+</ul>
+
+
+
 <h2>💻 Built with</h2>
 
 Technologies used in the project:
